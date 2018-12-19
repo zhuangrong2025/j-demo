@@ -18,11 +18,32 @@
 </head>
 <body>
 <span id="demo">
-    <ul>
-        <li  v-for="(item,index) in list" v-cloak>
-            <div>{{ item.name }}</div>
-        </li>
-    </ul>
+    <div class="text-box">
+        <h3><span>add</span></h3>
+        <ul>
+            <li  v-for="(item,index) in list" v-cloak>
+                <div>{{ item.name }}</div>
+                <span>delete</span>
+            </li>
+        </ul>
+    </div>
+
+    <div class="text-form">
+        <ul>
+            <li>
+                <label>name</label>
+                <input type="text" v-model="name">
+            </li>
+            <li>
+                <label>age</label>
+                <input type="text" v-model="age">
+            </li>
+        </ul>
+        <div class="btn-wrap">
+            <a href="javascripts:;" class="btn" @click="addList">提交</a>
+        </div>
+
+    </div>
 </span>
 </body>
 </html>
@@ -32,6 +53,8 @@
         el: '#demo',
         data: {
             list: [],
+            name: "",
+            age: 0
         },
         methods: {
             //获取数据
@@ -47,6 +70,21 @@
                     }
                 })
             },
+
+            //提交数据
+            addList(){
+                console.log("add")
+                var _this = this;
+                $.ajax({
+                    type: "post",
+                    data: '{"name": "uname", "age": 18}',
+                    url: "/person",
+                    dataType: "json",
+                    success: function(res){
+                       console.log(res)
+                    }
+                })
+            }
 
         },
         mounted() {
