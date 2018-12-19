@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no" />
+    <title></title>
+    <link rel="stylesheet" href="/stylesheets/demo.css" />
+    <script src="/javascripts/vue.js"></script>
+    <script src="/javascripts/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript">
+        $(function(){
+
+        })
+    </script>
+</head>
+<body>
+<span id="demo">
+    <ul>
+        <li  v-for="(item,index) in list" v-cloak>
+            <div>{{ item.name }}</div>
+        </li>
+    </ul>
+</span>
+</body>
+</html>
+<script type="text/javascript">
+    // vue实例
+    var app = new Vue({
+        el: '#demo',
+        data: {
+            list: [],
+        },
+        methods: {
+            //获取数据
+            getList() {
+                var _this = this;
+                // 获取列表
+                $.ajax({
+                    type: "get",
+                    url: "/person",
+                    dataType: "json",
+                    success: function(res){
+                        _this.list = res
+                    }
+                })
+            },
+
+        },
+        mounted() {
+            this.$nextTick( function () {
+                this.getList()
+            })
+
+        }
+    })
+</script>
