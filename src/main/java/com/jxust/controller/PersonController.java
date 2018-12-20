@@ -49,6 +49,23 @@ public class PersonController {
     }
 
     /**
+     * 更新一个用户
+     * @param name
+     * @param age
+     * @return
+     */
+    @PutMapping(value = "/person/{id}", consumes="application/json")
+    @ResponseBody
+    public Person personAdd(@PathVariable("id") Integer id){
+        Person person = new Person();
+        person.setId(id);
+        person.setName("aaaaaa");
+        person.setAge(8);
+        System.out.println(id);
+        return personRepository.save(person);
+    }
+
+    /**
      * 查询一个人员
      *
      * @param id

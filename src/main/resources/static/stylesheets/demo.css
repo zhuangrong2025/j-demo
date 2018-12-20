@@ -821,8 +821,21 @@ h2.sub-title.b-line {
 }
 
 /*spring boot*/
+.h3{
+    margin-top: 33px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #00ccff;
+}
+.text-form {
+    padding: 0 0;
+}
 .text-box {
-    padding: 100px;
+    padding: 10px 0;
+}
+.text-form ul,
+.text-box ul {
+    padding: 0 10px;
 }
 
 .text-box li {
@@ -840,6 +853,12 @@ h2.sub-title.b-line {
     -webkit-flex: 1;
     -ms-flex: 1;
     flex: 1;
+    cursor: pointer;
+    line-height: 50px;
+    padding-left: 5px;
+}
+.text-box li div:hover {
+    background-color: #eeeeee;
 }
 
 .text-box li span {
@@ -847,17 +866,9 @@ h2.sub-title.b-line {
     cursor: pointer;
 }
 
-.text-box h3 {
-    width: 100%;
-}
-
-.text-box h3 {
-    text-align: right;
-    color: #0033ff;
-}
 
 .text-form ul {
-    width: 200px;
+    width: 330px;
     padding: 10px;
 }
 
@@ -877,18 +888,20 @@ h2.sub-title.b-line {
     -webkit-flex: 1;
     -ms-flex: 1;
     flex: 1;
+    line-height: 35px;
+    padding: 0 10px;
 }
 
 .text-form li label {
-    width: 100px;
+    width: 50px;
     padding-right: 10px;
 }
 
 .text-form .btn {
     border: 0;
-    background-color: #00cccc;
+    background-color: #4a6fdc;
     color: #ffffff;
-    margin: 0 50px;
+    margin: 0 0 0 110px;
     padding: 5px 10px;
     line-height: 28px;
 }

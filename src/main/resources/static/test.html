@@ -18,16 +18,17 @@
 </head>
 <body>
 <span id="demo">
+    <h3 class="h3">列表</h3>
     <div class="text-box">
-        <h3><span>add</span></h3>
         <ul>
             <li  v-for="(item,index) in list" v-cloak>
-                <div>{{ item.name }}</div>
+                <div @click="selectList(item.id,item.name,item.age)">{{ item.name }}</div>
                 <span  @click="delList(item.id, index)">delete</span>
             </li>
         </ul>
     </div>
 
+    <h3 class="h3">新增</h3>
     <div class="text-form">
         <ul>
             <li>
@@ -44,6 +45,24 @@
         </div>
 
     </div>
+
+    <h3 class="h3">修改</h3>
+    <div class="text-form">
+        <ul>
+            <li>
+                <label>name</label>
+                <input type="text" v-model="selected.name">
+            </li>
+            <li>
+                <label>age</label>
+                <input type="text"  v-model.number="selected.age">
+            </li>
+        </ul>
+        <div class="btn-wrap">
+            <a href="javascripts:;" class="btn" @click="updateList">更新</a>
+        </div>
+
+    </div>
 </span>
 </body>
 </html>
@@ -53,10 +72,12 @@
         el: '#demo',
         data: {
             list: [],
-            person: {name: "jack", age: 18}
+            person: {name: "", age: 0},
+            selected: {name: "", age: 0},
+            activeId: 0
         },
         methods: {
-            //获取数据
+            // 获取数据
             getList: function() {
                 var _this = this;
                 // 获取列表
@@ -71,7 +92,7 @@
                 })
             },
 
-            //提交数据
+            // 提交数据
             addList(){
                 var _this = this;
                 $.ajax({
@@ -86,7 +107,7 @@
                     }
                 })
             },
-            //删除数据
+            // 删除数据
             delList(id,index){
                 var _this = this;
                 $.ajax({
@@ -99,6 +120,28 @@
                 })
                 // 服务器端没有返回
                 _this.list.splice(index, 1)
+            },
+            // 选择记录
+            selectList(id,name,age){
+                var _this = this;
+                _this.activeId = id;
+                _this.selected.name = name;
+                _this.selected.age = age;
+            },
+            // 更新
+            updateList(){
+                var _this = this;
+                console.log(_this.activeId)
+                $.ajax({
+                    type: "put",
+                    data: JSON.stringify(_this.selected),
+                    url: "/person/" + _this.activeId,
+                    dataType: "json",
+                    contentType: "application/json",
+                    success: function(res){
+                        console.log("update")
+                    }
+                })
             }
         },
         mounted() {
