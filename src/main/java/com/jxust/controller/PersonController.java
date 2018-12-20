@@ -34,14 +34,18 @@ public class PersonController {
      * @param age
      * @return
      */
-    @PostMapping(value = "/person")
-    public Person personAdd(@RequestParam("name") String name,
-                            @RequestParam("age") Integer age){
-        Person person = new Person();
-        person.setName(name);
-        person.setAge(age);
+    @PostMapping(value = "/person", consumes="application/json")
+    @ResponseBody
+    public Person personAdd(@RequestBody Person pp){
+        return personRepository.save(pp);
+    }
 
-        return personRepository.save(person);
+    /**
+     * 删除一个人员
+     */
+    @DeleteMapping(value = "/person/{id}")
+    public void personDelete(@PathVariable("id") Integer id) {
+        personRepository.deleteById(id);
     }
 
     /**

@@ -23,7 +23,7 @@
         <ul>
             <li  v-for="(item,index) in list" v-cloak>
                 <div>{{ item.name }}</div>
-                <span>delete</span>
+                <span  @click="delList(item.id, index)">delete</span>
             </li>
         </ul>
     </div>
@@ -32,11 +32,11 @@
         <ul>
             <li>
                 <label>name</label>
-                <input type="text" v-model="name">
+                <input type="text" v-model="person.name">
             </li>
             <li>
                 <label>age</label>
-                <input type="text" v-model="age">
+                <input type="text" v-model.number="person.age">
             </li>
         </ul>
         <div class="btn-wrap">
@@ -53,12 +53,11 @@
         el: '#demo',
         data: {
             list: [],
-            name: "",
-            age: 0
+            person: {name: "jack", age: 18}
         },
         methods: {
             //获取数据
-            getList() {
+            getList: function() {
                 var _this = this;
                 // 获取列表
                 $.ajax({
@@ -67,25 +66,40 @@
                     dataType: "json",
                     success: function(res){
                         _this.list = res
+                        console.log(_this.list)
                     }
                 })
             },
 
             //提交数据
             addList(){
-                console.log("add")
                 var _this = this;
                 $.ajax({
                     type: "post",
-                    data: '{"name": "uname", "age": 18}',
+                    data: JSON.stringify(_this.person),
                     url: "/person",
                     dataType: "json",
+                    contentType: "application/json",
                     success: function(res){
-                       console.log(res)
+                        console.log("add")
+                        _this.list.push(res)
                     }
                 })
+            },
+            //删除数据
+            delList(id,index){
+                var _this = this;
+                $.ajax({
+                    type: "delete",
+                    url: "/person/" + id,
+                    dataType: "json",
+                    success: function(res){
+                        console.log("delete")
+                    }
+                })
+                // 服务器端没有返回
+                _this.list.splice(index, 1)
             }
-
         },
         mounted() {
             this.$nextTick( function () {
