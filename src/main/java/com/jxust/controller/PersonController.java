@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * Created by Peng
- * Time: 2016/12/16 18:04
+ * Created by zr
+ * Time: 2018/12/21 18:04
  */
 @RestController
 public class PersonController {
@@ -56,13 +56,8 @@ public class PersonController {
      */
     @PutMapping(value = "/person/{id}", consumes="application/json")
     @ResponseBody
-    public Person personAdd(@PathVariable("id") Integer id){
-        Person person = new Person();
-        person.setId(id);
-        person.setName("aaaaaa");
-        person.setAge(8);
-        System.out.println(id);
-        return personRepository.save(person);
+    public Person personUpdate(@RequestBody Person pp2){
+        return personRepository.save(pp2);
     }
 
     /**

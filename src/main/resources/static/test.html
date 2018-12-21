@@ -22,8 +22,8 @@
     <div class="text-box">
         <ul>
             <li  v-for="(item,index) in list" v-cloak>
-                <div @click="selectList(item.id,item.name,item.age)">{{ item.name }}</div>
-                <span  @click="delList(item.id, index)">delete</span>
+                <div @click="selectList(item.id,item.name,item.age,index)">{{ item.id }} / {{ item.name }} / {{ item.age }}</div>
+                <span  @click="delList(item.id, index)">删除</span>
             </li>
         </ul>
     </div>
@@ -73,8 +73,8 @@
         data: {
             list: [],
             person: {name: "", age: 0},
-            selected: {name: "", age: 0},
-            activeId: 0
+            selected: {id:0, name: "", age: 0},
+            activeIndex: 0
         },
         methods: {
             // 获取数据
@@ -118,28 +118,30 @@
                         console.log("delete")
                     }
                 })
-                // 服务器端没有返回
+                // 服务器端没有返回sucess
                 _this.list.splice(index, 1)
             },
             // 选择记录
-            selectList(id,name,age){
+            selectList(id,name,age,index){
                 var _this = this;
-                _this.activeId = id;
+                _this.activeIndex = index;
+                _this.selected.id = id;
                 _this.selected.name = name;
                 _this.selected.age = age;
             },
             // 更新
             updateList(){
                 var _this = this;
-                console.log(_this.activeId)
                 $.ajax({
                     type: "put",
                     data: JSON.stringify(_this.selected),
-                    url: "/person/" + _this.activeId,
+                    url: "/person/" + _this.selected.id,
                     dataType: "json",
                     contentType: "application/json",
                     success: function(res){
                         console.log("update")
+                        // 定位当前index，并删除，然后再插入新的
+                        _this.list.splice(_this.activeIndex, 1, _this.selected)
                     }
                 })
             }
