@@ -21,12 +21,27 @@
     <h3 class="h3">列表</h3>
     <div class="text-box">
         <ul>
-            <li  v-for="(item,index) in list" v-cloak>
+            <li  v-for="(item,index) in list" v-cloak class="aa">
                 <div @click="selectList(item.id,item.name,item.age,index)">{{ item.id }} / {{ item.name }} / {{ item.age }}</div>
                 <span  @click="delList(item.id, index)">删除</span>
             </li>
         </ul>
     </div>
+    <!--分页-->
+    <div class="pagination" v-cloak>
+        <div>
+            共<span>{{pages.totalElements}}</span>条，
+            <span>{{pages.totalPages}}</span>页，
+            每页<span>{{pages.size}}</span>条
+        </div>
+        <ul>
+            <li v-for="i in pages.totalPages">
+                <a href="#" @click="pagination($event,i)" :class="{active: i == 1}">{{i}}</a>
+            </li>
+        </ul>
+    </div>
+    <!--//分页-->
+
 
     <h3 class="h3">新增</h3>
     <div class="text-form">
@@ -74,11 +89,13 @@
             list: [],
             person: {name: "", age: 0},
             selected: {id:0, name: "", age: 0},
-            activeIndex: 0
+            activeIndex: 0,
+            pages: { size: 0, totalPages: 0, totalElements: 0, number: 0},
+
         },
         methods: {
             // 获取数据
-            getList: function() {
+            getList() {
                 var _this = this;
                 // 获取列表
                 $.ajax({
@@ -144,11 +161,39 @@
                         _this.list.splice(_this.activeIndex, 1, _this.selected)
                     }
                 })
-            }
+            },
+
+            // 分页
+            pagination(event,n){
+                var _this = this;
+                var $el =$(event.target)
+                if( n == undefined){  // 默认加载时候n为undefined，就设n为0
+                    n = 0
+                }else{
+                    n = n - 1
+                }
+                var urls = "/persons/" + n
+                // 获取列表
+                $.ajax({
+                    type: "get",
+                    url: urls,
+                    dataType: "json",
+                    success: function(res){
+                        _this.pages.size = res.size
+                        _this.pages.totalPages = res.totalPages
+                        _this.pages.totalElements = res.totalElements
+                        _this.list = res.content //当前页的集合
+                    }
+                })
+                $el.addClass("active").parents("li").siblings().find("a").removeClass("active")
+
+            },
         },
         mounted() {
             this.$nextTick( function () {
-                this.getList()
+                // this.getList()
+                // 默认加载时候，event找不到，所以不传event参数；
+                this.pagination(1)
             })
 
         }

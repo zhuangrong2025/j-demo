@@ -906,8 +906,31 @@ h2.sub-title.b-line {
     line-height: 28px;
 }
 
-
-
+/*分页*/
+.pagination{
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+}
+.pagination ul{
+    margin-left: 10px;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+}
+.pagination ul li a{
+    display: block;
+    width: 25px;
+    line-height: 25px;
+    border: 1px solid #dddddd;
+    text-align: center;
+    margin: 0 5px;
+}
+.pagination ul li a.active{
+    border: none;
+    background-color: #5a6fdc;
+    color: #ffffff;
+}
 
 
 
