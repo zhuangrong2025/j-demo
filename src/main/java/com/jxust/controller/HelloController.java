@@ -12,6 +12,6 @@ public class HelloController {
 
     @RequestMapping("/hello")
     public String say() {
-        return "Hello SpringBoot!";
+        return "Hello SpringBoot!热部署";
     }
 }

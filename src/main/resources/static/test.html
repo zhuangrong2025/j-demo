@@ -91,7 +91,6 @@
             selected: {id:0, name: "", age: 0},
             activeIndex: 0,
             pages: { size: 0, totalPages: 0, totalElements: 0, number: 0},
-
         },
         methods: {
             // 获取数据
@@ -172,11 +171,10 @@
                 }else{
                     n = n - 1
                 }
-                var urls = "/persons/" + n
                 // 获取列表
                 $.ajax({
                     type: "get",
-                    url: urls,
+                    url: "/persons/" + n,
                     dataType: "json",
                     success: function(res){
                         _this.pages.size = res.size
